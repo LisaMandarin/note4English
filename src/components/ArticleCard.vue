@@ -14,12 +14,11 @@ const textareaValue = ref<string>("");
     <a-textarea
       v-model:value="textareaValue"
       placeholder="請貼上英文文章"
-      :rows="8"
       autosize
       allowClear
       maxlength="1000"
       showCount
-      id="articleTextarea"
+      id="textareaInput"
     />
   </div>
   <div class="flex w-full gap-4 justify-center pt-4">
