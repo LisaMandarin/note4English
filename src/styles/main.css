@@ -13,10 +13,33 @@
     .link {
         @apply underline
     }
+    .btnPrimary {
+        @apply px-4 py-2 bg-earthy-green text-beige rounded cursor-pointer
+    }
+    .btnPrimary:hover {
+        @apply bg-rosy-red shadow-xl
+    }
+    .btnPrimary:active {
+        @apply bg-rosy-purple
+    }
+    .btnSecondary {
+        @apply px-4 py-2 border border-earthy-green rounded cursor-pointer
+    }
+    .btnSecondary:hover {
+        @apply shadow-xl
+    }
+    .btnSecondary:active {
+        @apply bg-rosy-purple
+    }
+
 }
 
 @layer base {
     * {
         box-sizing: border-box;
     }
+}
+
+#articleTextarea {
+    padding: 16px;
 }
