@@ -1,24 +1,44 @@
 <script lang="ts" setup>
 import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
-import { ref } from "vue";
+import { ref} from "vue";
+import nlp from "compromise";
+import { message } from "ant-design-vue";
 
+const props = defineProps<{ current: number }>()
 const title = ref("輸入英文文章");
 const textareaValue = ref<string>("");
+const textareaRef = ref<HTMLElement | null>(null);
+const emit = defineEmits(["sentences", "update:current"])
+
+function convertArticle() {
+  if (!textareaValue.value.trim()) {
+    message.error("請輸入英文文章", 2)
+    textareaRef.value?.focus()
+    return
+  }
+  
+  const sentences = nlp(textareaValue.value).sentences().out("array")
+  emit("sentences", sentences)
+  emit("update:current", props.current +1)
+  
+}
+
 </script>
 <template>
   <h2 class="text-center text-2xl font-extrabold font-chinese">
     {{ title }}
     <HiOutlineQuestionMarkCircle class="inline" />
   </h2>
-  <div class="px-8">
+  <div class="px-8 max-w-[1000px] mx-auto">
     <a-textarea
       v-model:value="textareaValue"
       placeholder="請貼上英文文章"
-      autosize
+      autoSize
       allowClear
-      maxlength="1000"
+      :maxlength=1000
       showCount
       id="textareaInput"
+      ref="textareaRef"
     />
   </div>
   <div class="flex w-full gap-4 justify-center pt-4">
@@ -28,6 +48,6 @@ const textareaValue = ref<string>("");
     >
       清除文字
     </button>
-    <button class="btnPrimary text-lg">陳列句子</button>
+    <button class="btnPrimary text-lg" @click="convertArticle">陳列句子</button>
   </div>
 </template>

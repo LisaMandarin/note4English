@@ -2,8 +2,12 @@
 import { ref } from "vue";
 import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
 
+const props = defineProps<{ processedSentences: string[]; current: number; }>();
+const emit = defineEmits(["update:current"])
 const title = ref("陳列句子");
-const textareaValue = ref("");
+function prevStep() {
+  emit("update:current", props.current -1)
+}
 </script>
 
 <template>
@@ -11,18 +15,17 @@ const textareaValue = ref("");
     {{ title }}
     <HiOutlineQuestionMarkCircle class="inline" />
   </h2>
-  <div class="px-8">
-    <a-textarea 
-        v-model:value="textareaValue"
-        autosize
-        allowClear
-        maxLength="1000"
-        showCount
-        id="textareaInput"
-    />
-  </div>
+  <ol class="mx-8 max-w-[1000px] lg:mx-auto">
+    <li
+      v-for="(_, index) in processedSentences"
+      :key="index"
+      class="odd:bg-warm-green p-2"
+    >
+      <a-typography-paragraph v-model:content="props.processedSentences[index]" editable />
+    </li>
+  </ol>
   <div class="flex w-full gap-4 justify-center pt-4">
-    <button class="btnSecondary">上一步</button>
+    <button class="btnSecondary" @click="prevStep">上一步</button>
     <button class="btnPrimary">翻譯</button>
   </div>
 </template>
