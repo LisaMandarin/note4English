@@ -4,14 +4,30 @@ import Footer from "./components/Footer.vue";
 import ArticleCard from "./components/ArticleCard.vue";
 import SentenceCard from "./components/SentenceCard.vue";
 import TranslationCard from "./components/TranslationCard.vue";
+import NotesCard from "./components/NotesCard.vue";
 import { ref, watch } from "vue";
+import { v4 as uuidv4 } from "uuid";
+
+export type LookedUpWordType = {
+  id: string;
+  content: string;
+}
 const processedSentences = ref<string[]>([]);
 const sentencesToBeTranslated = ref<string[]>([]);
+const lookedUpWords = ref<LookedUpWordType[]>([
+  {id: uuidv4(), content: "word1: blah blah blah"},
+  {id: uuidv4(), content: "word1: blah blah blah"},
+  {id: uuidv4(), content: "word1: blah blah blah"},
+  {id: uuidv4(), content: "word1: blah blah blah"},
+  {id: uuidv4(), content: "word1: blah blah blah"},
+]);
 
 // steps setting (begin)
 const current = ref<number>(0);
-const items = ref([{ title: "輸入文章" }, { title: "確認分句" }]);
+const items = ref([{ title: "輸入文章" }, { title: "確認分句" }, {title: "翻譯文章"}, {title: "做筆記"}]);
 // step setting (end)
+
+watch(current, (newValue) => console.log("current: ", newValue), {deep: true})
 </script>
 
 <template>
@@ -20,7 +36,7 @@ const items = ref([{ title: "輸入文章" }, { title: "確認分句" }]);
       <Header />
     </div>
 
-    <div class="mx-8 my-4">
+    <div class="mx-12 my-4">
       <a-steps :current="current" :items="items"></a-steps>
     </div>
     <div class="flex-grow">
@@ -46,7 +62,15 @@ const items = ref([{ title: "輸入文章" }, { title: "確認分句" }]);
         @update:current="(prevStep: number) => (current = prevStep)"
         
       />
+
+      <NotesCard 
+        v-else-if="current===3"
+        :current="current"
+        :lookedUpWords="lookedUpWords"
+        @update:current="(step: number) => (current = step)"
+      />
     </div>
+
     <div>
       <Footer />
     </div>

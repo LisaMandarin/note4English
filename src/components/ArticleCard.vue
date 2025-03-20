@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
+import { AiOutlineClear } from "vue-icons-plus/ai";
+import { AiOutlineBars } from "vue-icons-plus/ai";
 import { ref} from "vue";
 import nlp from "compromise";
 import { message } from "ant-design-vue";
@@ -41,13 +43,17 @@ function convertArticle() {
       ref="textareaRef"
     />
   </div>
-  <div class="flex w-full gap-4 justify-center pt-4">
+  <div class="flex w-full gap-4 justify-center pt-4 font-chinese">
     <button
       @click="textareaValue = ''"
       class="btnSecondary text-lg"
     >
+      <AiOutlineClear class="inline mr-2" />
       清除文字
     </button>
-    <button class="btnPrimary text-lg" @click="convertArticle">陳列句子</button>
+    <button class="btnPrimary text-lg" @click="convertArticle">
+      <AiOutlineBars class="inline mr-2" />
+      陳列句子
+    </button>
   </div>
 </template>

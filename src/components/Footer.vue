@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     import { ref } from 'vue';
-    const siteName = ref("note4English")
+    const siteName = ref("Note4English")
     const thisYear = new Date().getFullYear();
     const author = ref("Min-ting Chuang")
 </script>

@@ -31,6 +31,12 @@
     .btnSecondary:active {
         @apply bg-rosy-purple
     }
+    .btnDanger {
+        @apply px-4 py-2 border border-red-500 text-red-500 rounded cursor-pointer
+    }
+    .btnDanger:hover {
+        @apply shadow-xl
+    }
 
 }
 
@@ -42,4 +48,7 @@
 
 #textareaInput {
     padding: 16px;
+}
+#sentence-card-list {
+    margin: 0
 }
