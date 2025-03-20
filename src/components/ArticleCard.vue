@@ -6,23 +6,28 @@ import { ref} from "vue";
 import nlp from "compromise";
 import { message } from "ant-design-vue";
 
-const props = defineProps<{ current: number }>()
+const props = defineProps<{ 
+  current: number;
+}>()
 const title = ref("輸入英文文章");
-const textareaValue = ref<string>("");
+const textareaValue = defineModel<string>()
 const textareaRef = ref<HTMLElement | null>(null);
-const emit = defineEmits(["sentences", "update:current"])
+const emit = defineEmits(["update:sentences", "update:current"])
 
 function convertArticle() {
-  if (!textareaValue.value.trim()) {
+  if (typeof textareaValue.value !== 'string' || !textareaValue.value.trim()) {
     message.error("請輸入英文文章", 2)
     textareaRef.value?.focus()
     return
   }
   
   const sentences = nlp(textareaValue.value).sentences().out("array")
-  emit("sentences", sentences)
+  emit("update:sentences", sentences)
   emit("update:current", props.current +1)
-  
+}
+
+function nextStep() {
+  emit("update:current", props.current +1)
 }
 
 </script>
@@ -43,17 +48,20 @@ function convertArticle() {
       ref="textareaRef"
     />
   </div>
-  <div class="flex w-full gap-4 justify-center pt-4 font-chinese">
+  <div class="flex flex-wrap w-screen px-8 gap-4 justify-center pt-4 font-chinese">
     <button
       @click="textareaValue = ''"
-      class="btnSecondary text-lg"
+      class="btnSecondary"
     >
       <AiOutlineClear class="inline mr-2" />
       清除文字
     </button>
-    <button class="btnPrimary text-lg" @click="convertArticle">
+    <button class="btnPrimary" @click="convertArticle">
       <AiOutlineBars class="inline mr-2" />
       陳列句子
     </button>
+    <button 
+      @click="nextStep"
+      class="btnSecondary ">下一頁</button>
   </div>
 </template>

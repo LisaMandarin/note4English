@@ -8,19 +8,34 @@ import NotesCard from "./components/NotesCard.vue";
 import { ref, watch } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
-export type LookedUpWordType = {
+export type NoteWordType = {
   id: string;
   content: string;
 }
-const processedSentences = ref<string[]>([]);
-const sentencesToBeTranslated = ref<string[]>([]);
-const lookedUpWords = ref<LookedUpWordType[]>([
-  {id: uuidv4(), content: "word1: blah blah blah"},
-  {id: uuidv4(), content: "word1: blah blah blah"},
-  {id: uuidv4(), content: "word1: blah blah blah"},
-  {id: uuidv4(), content: "word1: blah blah blah"},
-  {id: uuidv4(), content: "word1: blah blah blah"},
+
+// default text in each card (begin)
+const article = ref<string>("");
+const sentences = ref<string[]>([
+  "Please paste an article first.  Go back to the previous page.",
+  "This is an example sentence.",
+  "This is an example sentence."
 ]);
+const sentencesToBeTranslated = ref<string[]>([
+  "Please paste an article first.  Go back to the previous page.",
+  "This is an example sentence.",
+  "This is an example sentence."
+]);
+const translations = ref<string[]>([
+  "請先貼上英文文章。回上一頁。",
+  "這是範例句",
+  "這是範例句"
+])
+const noteWords = ref<NoteWordType[]>([
+  {id: uuidv4(), content: "word A\ndefinition of the word\nexample sentence of the word"},
+  {id: uuidv4(), content: "word B\ndefinition of the word\nexample sentence of the word"},
+  {id: uuidv4(), content: "word C\ndefinition of the word\nexample sentence of the word"},
+]);
+// default text in each card (end)
 
 // steps setting (begin)
 const current = ref<number>(0);
@@ -43,31 +58,39 @@ watch(current, (newValue) => console.log("current: ", newValue), {deep: true})
       <ArticleCard
         v-if="current === 0"
         :current="current"
-        @sentences="(msg) => (processedSentences = msg)"
-        @update:current="(newStep) => (current = newStep)"
+        v-model="article"
+        @update:sentences="(msg: string[]) => (sentences = msg)"
+        @update:current="(step) => (current = step)"
       />
       <SentenceCard
         v-else-if="current === 1"
-        :processedSentences="processedSentences"
+        :sentences="sentences"
         :current="current"
-        @update:current="(prevStep) => (current = prevStep)"
+        @update:current="(step) => (current = step)"
         @sentencesToBeTranslated="
           (sentences) => (sentencesToBeTranslated = sentences)
         "
+        @update:translations="(t) => translations = t"
       />
       <TranslationCard 
         v-else-if="current === 2"
         :sentencesToBeTranslated="sentencesToBeTranslated" 
+        :translations="translations"
         :current="current"
-        @update:current="(prevStep: number) => (current = prevStep)"
-        
+        @update:current="(step) => (current = step)"
+        @update:noteWords="(notes) => (noteWords = notes)"
       />
 
       <NotesCard 
         v-else-if="current===3"
         :current="current"
-        :lookedUpWords="lookedUpWords"
+        :noteWords="noteWords"
         @update:current="(step: number) => (current = step)"
+        @update:article="(a) => (article = a)"
+        @update:sentences="(s) => (sentences = s)"
+        @update:sentencesToBeTranslated="(s) => (sentencesToBeTranslated = s)"
+        @update:translations="(t) => (translations = t)"
+        @update:noteWords="(n: NoteWordType[]) => (noteWords = n)"
       />
     </div>
 
