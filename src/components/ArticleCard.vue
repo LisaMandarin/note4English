@@ -2,6 +2,7 @@
 import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
 import { AiOutlineClear } from "vue-icons-plus/ai";
 import { AiOutlineBars } from "vue-icons-plus/ai";
+import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
 import { ref} from "vue";
 import nlp from "compromise";
 import { message } from "ant-design-vue";
@@ -62,6 +63,9 @@ function nextStep() {
     </button>
     <button 
       @click="nextStep"
-      class="btnSecondary ">下一頁</button>
+      class="btnSecondary ">
+      下一頁
+      <TbArrowBigRightLineFilled class="inline mr-2" />
+    </button>
   </div>
 </template>

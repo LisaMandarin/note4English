@@ -5,8 +5,7 @@ import ArticleCard from "./components/ArticleCard.vue";
 import SentenceCard from "./components/SentenceCard.vue";
 import TranslationCard from "./components/TranslationCard.vue";
 import NotesCard from "./components/NotesCard.vue";
-import { ref, watch } from "vue";
-import { v4 as uuidv4 } from "uuid";
+import { ref } from "vue";
 
 export type NoteWordType = {
   id: string;
@@ -30,11 +29,7 @@ const translations = ref<string[]>([
   "這是範例句",
   "這是範例句"
 ])
-const noteWords = ref<NoteWordType[]>([
-  {id: uuidv4(), content: "word A\ndefinition of the word\nexample sentence of the word"},
-  {id: uuidv4(), content: "word B\ndefinition of the word\nexample sentence of the word"},
-  {id: uuidv4(), content: "word C\ndefinition of the word\nexample sentence of the word"},
-]);
+const noteWords = ref<NoteWordType[]>([]);
 // default text in each card (end)
 
 // steps setting (begin)
@@ -42,7 +37,6 @@ const current = ref<number>(0);
 const items = ref([{ title: "輸入文章" }, { title: "確認分句" }, {title: "翻譯文章"}, {title: "做筆記"}]);
 // step setting (end)
 
-watch(current, (newValue) => console.log("current: ", newValue), {deep: true})
 </script>
 
 <template>
@@ -77,6 +71,7 @@ watch(current, (newValue) => console.log("current: ", newValue), {deep: true})
         :sentencesToBeTranslated="sentencesToBeTranslated" 
         :translations="translations"
         :current="current"
+        :noteWords="noteWords"
         @update:current="(step) => (current = step)"
         @update:noteWords="(notes) => (noteWords = notes)"
       />

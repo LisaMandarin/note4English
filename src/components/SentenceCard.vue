@@ -5,6 +5,7 @@ import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
 import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { BsTranslate } from "vue-icons-plus/bs";
 import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
+import microsoftTranslator from "../APIs/microsoft-translator"
 
 const props = defineProps<{
   sentences: string[];
@@ -22,14 +23,15 @@ function prevStep() {
   emit("update:current", props.current - 1);
 }
 
-function convertSentences() {
+async function convertSentences() {
   const filteredSentences = sentences.value.filter((s) => s.trim() !== "");
 
   if (filteredSentences.length === 0) {
     message.error("沒有句子需要翻譯");
     return;
   }
-  const translations = ["第一句翻譯", "第二句翻譯", "第三句翻譯"];
+  const translations = await microsoftTranslator(filteredSentences);
+  
   emit("sentencesToBeTranslated", filteredSentences);
   emit("update:translations", translations);
   emit("update:current", props.current + 1);

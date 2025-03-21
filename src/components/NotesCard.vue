@@ -11,6 +11,7 @@ const props = defineProps<{
   current: number;
   noteWords: NoteWordType[];
 }>();
+console.log('noteWords: ', props.noteWords)
 const emit = defineEmits([
   "update:current",
   "update:article",
