@@ -6,9 +6,12 @@ import { AiOutlineClear } from "vue-icons-plus/ai";
 import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { VscDebugRestart } from "vue-icons-plus/vsc";
 import type { NoteWordType } from "../App.vue";
+import generatePDF from "../APIs/generatePDF"
 
 const props = defineProps<{
   current: number;
+  sentencesToBeTranslated: string[],
+  translations: string[],
   noteWords: NoteWordType[];
 }>();
 console.log('noteWords: ', props.noteWords)
@@ -32,6 +35,10 @@ function deleteWord(note: NoteWordType) {
 }
 function deleteAll() {
   emit("update:noteWords", []);
+}
+
+async function handlePDF() {
+  await generatePDF(props.sentencesToBeTranslated, props.translations, props.noteWords)
 }
 
 function startOver() {
@@ -81,7 +88,7 @@ function startOver() {
     <button class="btnPrimary" @click="prevStep">
       <TbArrowBackUp class="inline mr-2" />回上頁查詢單字
     </button>
-    <button class="btnSecondary">
+    <button class="btnSecondary" @click="handlePDF">
       <BsDownload class="inline mr-2" />PDF生成
     </button>
     <a-popconfirm

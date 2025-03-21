@@ -79,6 +79,8 @@ const items = ref([{ title: "輸入文章" }, { title: "確認分句" }, {title:
       <NotesCard 
         v-else-if="current===3"
         :current="current"
+        :sentencesToBeTranslated="sentencesToBeTranslated"
+        :translations="translations"
         :noteWords="noteWords"
         @update:current="(step: number) => (current = step)"
         @update:article="(a) => (article = a)"

@@ -13,6 +13,7 @@
     "ant-design-vue": "^4.2.6",
     "axios": "^1.8.4",
     "compromise": "^14.14.4",
+    "jspdf": "^3.0.1",
     "natural": "^8.0.1",
     "openai": "^4.89.0",
     "tailwindcss": "^4.0.14",
