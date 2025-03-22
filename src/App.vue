@@ -10,33 +10,40 @@ import { ref } from "vue";
 export type NoteWordType = {
   id: string;
   content: string;
-}
+};
 
 // default text in each card (begin)
 const article = ref<string>("");
 const sentences = ref<string[]>([
   "Please paste an article first.  Go back to the previous page.",
   "This is an example sentence.",
-  "This is an example sentence."
+  "This is an example sentence.",
 ]);
 const sentencesToBeTranslated = ref<string[]>([
   "Please paste an article first.  Go back to the previous page.",
   "This is an example sentence.",
-  "This is an example sentence."
+  "This is an example sentence.",
 ]);
 const translations = ref<string[]>([
   "請先貼上英文文章。回上一頁。",
   "這是範例句",
-  "這是範例句"
-])
+  "這是範例句",
+]);
 const noteWords = ref<NoteWordType[]>([]);
 // default text in each card (end)
 
 // steps setting (begin)
 const current = ref<number>(0);
-const items = ref([{ title: "輸入文章" }, { title: "確認分句" }, {title: "翻譯文章"}, {title: "做筆記"}]);
+const items = ref([
+  { title: "輸入文章", description: "貼上要處理的英文文章" },
+  { title: "確認分句", description: "把文章切成一句一行" },
+  { title: "翻譯文章", description: "將英文文章逐句翻譯" },
+  {
+    title: "做筆記",
+    description: "查詢單字並做成筆記，將查詢結果和翻譯結果生成PDF檔案",
+  },
+]);
 // step setting (end)
-
 </script>
 
 <template>
@@ -64,11 +71,11 @@ const items = ref([{ title: "輸入文章" }, { title: "確認分句" }, {title:
         @sentencesToBeTranslated="
           (sentences) => (sentencesToBeTranslated = sentences)
         "
-        @update:translations="(t) => translations = t"
+        @update:translations="(t) => (translations = t)"
       />
-      <TranslationCard 
+      <TranslationCard
         v-else-if="current === 2"
-        :sentencesToBeTranslated="sentencesToBeTranslated" 
+        :sentencesToBeTranslated="sentencesToBeTranslated"
         :translations="translations"
         :current="current"
         :noteWords="noteWords"
@@ -76,8 +83,8 @@ const items = ref([{ title: "輸入文章" }, { title: "確認分句" }, {title:
         @update:noteWords="(notes) => (noteWords = notes)"
       />
 
-      <NotesCard 
-        v-else-if="current===3"
+      <NotesCard
+        v-else-if="current === 3"
         :current="current"
         :sentencesToBeTranslated="sentencesToBeTranslated"
         :translations="translations"
