@@ -47,7 +47,7 @@ const items = ref([
 </script>
 
 <template>
-  <div class="font-english bg-beige min-h-screen flex flex-col">
+  <div class="font-english bg-yellow-50 min-h-screen flex flex-col">
     <div>
       <Header />
     </div>

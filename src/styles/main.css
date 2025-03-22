@@ -14,7 +14,7 @@
         @apply underline
     }
     .btnPrimary {
-        @apply px-4 py-2 bg-earthy-green text-beige rounded cursor-pointer
+        @apply px-4 py-2 bg-earthy-green text-yellow-50 rounded cursor-pointer
     }
     .btnPrimary:hover {
         @apply bg-rosy-red shadow-xl
