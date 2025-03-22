@@ -6,15 +6,15 @@ import { AiOutlineClear } from "vue-icons-plus/ai";
 import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { VscDebugRestart } from "vue-icons-plus/vsc";
 import type { NoteWordType } from "../App.vue";
-import generatePDF from "../APIs/generatePDF"
+import generatePDF from "../APIs/generatePDF";
+import { message } from "ant-design-vue";
 
 const props = defineProps<{
   current: number;
-  sentencesToBeTranslated: string[],
-  translations: string[],
+  sentencesToBeTranslated: string[];
+  translations: string[];
   noteWords: NoteWordType[];
 }>();
-console.log('noteWords: ', props.noteWords)
 const emit = defineEmits([
   "update:current",
   "update:article",
@@ -24,6 +24,7 @@ const emit = defineEmits([
   "update:noteWords",
 ]);
 const title = ref("筆記");
+const loading = ref(false);
 
 function prevStep() {
   emit("update:current", props.current - 1);
@@ -38,7 +39,20 @@ function deleteAll() {
 }
 
 async function handlePDF() {
-  await generatePDF(props.sentencesToBeTranslated, props.translations, props.noteWords)
+  try {
+    loading.value = true;
+    await generatePDF(
+      props.sentencesToBeTranslated,
+      props.translations,
+      props.noteWords
+    );
+    message.success("PDF檔案已生成，請查看下載檔案");
+  } catch (error) {
+    console.error("error");
+    message.error((error as Error).message);
+  } finally {
+    loading.value = false;
+  }
 }
 
 function startOver() {
@@ -56,60 +70,62 @@ function startOver() {
     {{ title }}
     <HiOutlineQuestionMarkCircle class="inline" />
   </h2>
-  <div
-    class="mx-8 max-w-[1000px] lg:mx-auto p-4 border border-earthy-green rounded-xl flex flex-wrap gap-4"
-  >
+  <a-spin :spinning="loading">
     <div
-      v-if="noteWords.length > 0"
-      v-for="word in noteWords"
-      class="relative border border-earthy-green rounded p-2 w-[250px] shadow-lg"
+      class="mx-8 max-w-[1000px] lg:mx-auto p-4 border border-earthy-green rounded-xl flex flex-wrap gap-4"
     >
-      <button
-        @click="deleteWord(word)"
-        class="absolute top-1 right-2 cursor-pointer"
+      <div
+        v-if="noteWords.length > 0"
+        v-for="word in noteWords"
+        class="relative border border-earthy-green rounded p-2 w-[250px] shadow-lg"
       >
-        X
-      </button>
-      <a-typography-paragraph
-        v-model:content="word.content"
-        :key="word.id"
-        editable
-        class="whitespace-pre-wrap"
-      />
+        <button
+          @click="deleteWord(word)"
+          class="absolute top-1 right-2 cursor-pointer"
+        >
+          X
+        </button>
+        <a-typography-paragraph
+          v-model:content="word.content"
+          :key="word.id"
+          editable
+          class="whitespace-pre-wrap"
+        />
+      </div>
+      <p v-else>
+        按「查詢單字」後，單字解釋會呈現在這區，更多資訊請按上方「問號」
+      </p>
     </div>
-    <p v-else>
-      按「查詢單字」後，單字解釋會呈現在這區，更多資訊請按上方「問號」
-    </p>
-  </div>
 
-  <div
-    class="flex flex-wrap gap-4 justify-center w-screen px-8 pt-4 font-chinese"
-  >
-    <button class="btnPrimary" @click="prevStep">
-      <TbArrowBackUp class="inline mr-2" />回上頁查詢單字
-    </button>
-    <button class="btnSecondary" @click="handlePDF">
-      <BsDownload class="inline mr-2" />PDF生成
-    </button>
-    <a-popconfirm
-      title="確定清除畫面中的筆記？"
-      ok-text="Yes"
-      cancel-text="No"
-      @confirm="deleteAll"
+    <div
+      class="flex flex-wrap gap-4 justify-center w-screen px-8 pt-4 font-chinese"
     >
-      <button class="btnSecondary">
-        <AiOutlineClear class="inline mr-2" />清除全部筆記
+      <button class="btnPrimary" @click="prevStep">
+        <TbArrowBackUp class="inline mr-2" />回上頁查詢單字
       </button>
-    </a-popconfirm>
-    <a-popconfirm
-      title="確定要重新開始？"
-      ok-text="Yes"
-      cancel-text="No"
-      @confirm="startOver"
-    >
-      <button class="btnDanger">
-        <VscDebugRestart class="inline mr-2" />重新開始
+      <button class="btnSecondary" @click="handlePDF">
+        <BsDownload class="inline mr-2" />PDF生成
       </button>
-    </a-popconfirm>
-  </div>
+      <a-popconfirm
+        title="確定清除畫面中的筆記？"
+        ok-text="Yes"
+        cancel-text="No"
+        @confirm="deleteAll"
+      >
+        <button class="btnSecondary">
+          <AiOutlineClear class="inline mr-2" />清除全部筆記
+        </button>
+      </a-popconfirm>
+      <a-popconfirm
+        title="確定要重新開始？"
+        ok-text="Yes"
+        cancel-text="No"
+        @confirm="startOver"
+      >
+        <button class="btnDanger">
+          <VscDebugRestart class="inline mr-2" />重新開始
+        </button>
+      </a-popconfirm>
+    </div>
+  </a-spin>
 </template>

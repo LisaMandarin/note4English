@@ -1,8 +1,6 @@
 import jsPDF from "jspdf"
 
 export default async function generatePDF(sentencesToBeTranslated, translations, noteWords) {
-    console.log('sentences: ', sentencesToBeTranslated.value)
-    console.log('translations: ', translations.value)
     const newSentences = sentencesToBeTranslated
     const newTranslations = translations
     const newNotes = noteWords
