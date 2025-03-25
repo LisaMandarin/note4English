@@ -5,7 +5,9 @@ import ArticleCard from "./components/ArticleCard.vue";
 import SentenceCard from "./components/SentenceCard.vue";
 import TranslationCard from "./components/TranslationCard.vue";
 import NotesCard from "./components/NotesCard.vue";
-import { ref } from "vue";
+import EditableDiv from "./components/EditableDiv.vue";
+import { ref, watch} from "vue";
+
 
 export type NoteWordType = {
   id: string;
@@ -13,6 +15,7 @@ export type NoteWordType = {
 };
 
 // default text in each card (begin)
+const content = ref<string>("123")
 const article = ref<string>("");
 const sentences = ref<string[]>([
   "Please paste an article first.  Go back to the previous page.",
@@ -44,6 +47,8 @@ const items = ref([
   },
 ]);
 // step setting (end)
+
+watch(content, (newValue) => console.log(newValue))
 </script>
 
 <template>
@@ -96,8 +101,9 @@ const items = ref([
         @update:translations="(t) => (translations = t)"
         @update:noteWords="(n: NoteWordType[]) => (noteWords = n)"
       />
+      
+      <EditableDiv v-model="content" class="max-w-[1000px] mx-8 lg:mx-auto whitespace-pre"/>
     </div>
-
     <div>
       <Footer />
     </div>
