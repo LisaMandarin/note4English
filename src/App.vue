@@ -101,8 +101,6 @@ watch(content, (newValue) => console.log(newValue))
         @update:translations="(t) => (translations = t)"
         @update:noteWords="(n: NoteWordType[]) => (noteWords = n)"
       />
-      
-      <EditableDiv v-model="content" class="max-w-[1000px] mx-8 lg:mx-auto whitespace-pre"/>
     </div>
     <div>
       <Footer />

@@ -8,6 +8,7 @@ import { VscDebugRestart } from "vue-icons-plus/vsc";
 import type { NoteWordType } from "../App.vue";
 import generatePDF from "../APIs/generatePDF";
 import { message } from "ant-design-vue";
+import EditableDiv from "./EditableDiv.vue";
 
 const props = defineProps<{
   current: number;
@@ -85,12 +86,13 @@ function startOver() {
         >
           X
         </button>
-        <a-typography-paragraph
+        <EditableDiv v-model="word.content" :key="word.id" class="whitespace-pre"/>
+        <!-- <a-typography-paragraph
           v-model:content="word.content"
           :key="word.id"
           editable
           class="whitespace-pre-wrap"
-        />
+        /> -->
       </div>
       <p v-else>
         按「查詢單字」後，單字解釋會呈現在這區，更多資訊請按上方「問號」

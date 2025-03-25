@@ -6,6 +6,7 @@ import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { BsTranslate } from "vue-icons-plus/bs";
 import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
 import microsoftTranslator from "../APIs/microsoft-translator"
+import EditableDiv from "./EditableDiv.vue";
 
 const props = defineProps<{
   sentences: string[];
@@ -67,12 +68,16 @@ function nextStep() {
         :key="i"
         class="odd:bg-warm-green first:rounded-t-lg last:rounded-b-lg"
       >
-        <a-typography-paragraph
+        <EditableDiv 
+          v-model="sentences[i]"
+          class="p-2"  
+        />
+        <!-- <a-typography-paragraph
           v-model:content="sentences[i]"
           editable
           class="p-2"
           id="sentence-card-list"
-        />
+        /> -->
       </p>
       <p v-if="sentences.length === 0" class="p-2">
         請先貼上英文文章才能進行斷句。回上一頁。
