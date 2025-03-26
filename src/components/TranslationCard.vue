@@ -107,7 +107,7 @@ watch([chinese, english, example], ([ch, en, ex]) => {
       <p
         v-if="sentencesToBeTranslated.length > 0"
         v-for="(sentence, i) in sentencesToBeTranslated"
-        class="odd:bg-warm-green p-2 first:rounded-t-lg last:rounded-b-lg"
+        class="odd:bg-warm-green p-2 text-sm lg:text-2xl first:rounded-t-lg last:rounded-b-lg"
       >
         {{ sentence }}
         <br />

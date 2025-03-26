@@ -52,7 +52,7 @@ watch(content, (newValue) => console.log(newValue))
 </script>
 
 <template>
-  <div class="font-english bg-yellow-50 min-h-screen flex flex-col">
+  <div class="font-english lg:text-xl bg-yellow-50 min-h-screen flex flex-col">
     <div>
       <Header />
     </div>

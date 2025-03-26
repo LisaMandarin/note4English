@@ -48,7 +48,15 @@
 
 #textareaInput {
     padding: 16px;
+    font-family: var(--font-english);
+    font-size: 14px;
 }
 #sentence-card-list {
     margin: 0
+}
+
+@media (min-width: 1024px) {
+    #textareaInput {
+        font-size: 20px;
+    }
 }

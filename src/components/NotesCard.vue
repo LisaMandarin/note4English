@@ -73,7 +73,7 @@ function startOver() {
   </h2>
   <a-spin :spinning="loading">
     <div
-      class="mx-8 max-w-[1000px] lg:mx-auto p-4 border border-earthy-green rounded-xl flex flex-wrap gap-4"
+      class="mx-8 max-w-[1000px] lg:mx-auto p-4 text-sm lg:text-xl border border-earthy-green rounded-xl flex flex-wrap gap-4"
     >
       <div
         v-if="noteWords.length > 0"
@@ -87,12 +87,6 @@ function startOver() {
           X
         </button>
         <EditableDiv v-model="word.content" :key="word.id" class="whitespace-pre"/>
-        <!-- <a-typography-paragraph
-          v-model:content="word.content"
-          :key="word.id"
-          editable
-          class="whitespace-pre-wrap"
-        /> -->
       </div>
       <p v-else>
         按「查詢單字」後，單字解釋會呈現在這區，更多資訊請按上方「問號」

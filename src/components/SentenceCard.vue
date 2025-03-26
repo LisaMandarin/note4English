@@ -70,14 +70,8 @@ function nextStep() {
       >
         <EditableDiv 
           v-model="sentences[i]"
-          class="p-2"  
+          class="p-2 text-sm lg:text-2xl"  
         />
-        <!-- <a-typography-paragraph
-          v-model:content="sentences[i]"
-          editable
-          class="p-2"
-          id="sentence-card-list"
-        /> -->
       </p>
       <p v-if="sentences.length === 0" class="p-2">
         請先貼上英文文章才能進行斷句。回上一頁。
