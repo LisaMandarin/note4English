@@ -5,16 +5,16 @@ import ArticleCard from "./components/ArticleCard.vue";
 import SentenceCard from "./components/SentenceCard.vue";
 import TranslationCard from "./components/TranslationCard.vue";
 import NotesCard from "./components/NotesCard.vue";
-import { ref, watch} from "vue";
+import { ref, watch, computed } from "vue";
+import { theme } from "ant-design-vue";
 
 export type NoteWordType = {
   id: string;
   content: string;
 };
 
-const isDark = ref(false);  // dark mode state
+const isDark = ref(false); // dark mode state
 // default text in each card (begin)
-const content = ref<string>("123")
 const article = ref<string>("");
 const sentences = ref<string[]>([
   "Please paste an article first.  Go back to the previous page.",
@@ -47,66 +47,90 @@ const items = ref([
 ]);
 // step setting (end)
 
-watch(content, (newValue) => console.log(newValue))
+// toggle dark modd, light mode (begin)
+const darkTheme = {
+  algorithm: theme.darkAlgorithm,
+};
+const lightTheme = {
+  algorithm: theme.defaultAlgorithm,
+};
+const themeConfig = computed(() => (isDark.value ? darkTheme : lightTheme));
+// toggle dark modd, light mode (end)
 </script>
 
 <template>
-  <div :class="[isDark ? 'dark-mode' : 'bg-yellow-50', 'font-english', 'text-base', 'lg:text-xl', 'min-h-screen', 'flex', 'flex-col']">
-    <div class="mx-8 my-2">
-      <a-switch v-model:checked="isDark" />
-    </div>
-    <div>
-      <Header :isDark="isDark" />
-    </div>
+  <a-config-provider :theme="themeConfig">
+    <div
+      :class="[
+        isDark ? 'dark-mode' : 'bg-yellow-50',
+        'font-english',
+        'text-base',
+        'lg:text-xl',
+        'min-h-screen',
+        'flex',
+        'flex-col',
+      ]"
+    >
+      <div class="mx-8 my-2">
+        <a-switch v-model:checked="isDark" />
+      </div>
+      <div>
+        <Header :isDark="isDark" />
+      </div>
 
-    <div class="mx-12 my-4">
-      <a-steps :current="current" :items="items" class="bg-yellow-50 rounded-2xl" />
-    </div>
-    <div class="flex-grow">
-      <ArticleCard
-        v-if="current === 0"
-        :current="current"
-        v-model="article"
-        @update:sentences="(msg: string[]) => (sentences = msg)"
-        @update:current="(step) => (current = step)"
-      />
-      <SentenceCard
-        v-else-if="current === 1"
-        :sentences="sentences"
-        :current="current"
-        @update:current="(step) => (current = step)"
-        @sentencesToBeTranslated="
-          (sentences) => (sentencesToBeTranslated = sentences)
-        "
-        @update:translations="(t) => (translations = t)"
-      />
-      <TranslationCard
-        v-else-if="current === 2"
-        :sentencesToBeTranslated="sentencesToBeTranslated"
-        :translations="translations"
-        :current="current"
-        :noteWords="noteWords"
-        :isDark="isDark"
-        @update:current="(step) => (current = step)"
-        @update:noteWords="(notes) => (noteWords = notes)"
-      />
+      <div class="mx-12 my-4">
+        <a-steps
+          :current="current"
+          :items="items"
+          
+        />
+      </div>
+      <div class="flex-grow">
+        <ArticleCard
+          v-if="current === 0"
+          :current="current"
+          v-model="article"
+          @update:sentences="(msg: string[]) => (sentences = msg)"
+          @update:current="(step) => (current = step)"
+        />
+        <SentenceCard
+          v-else-if="current === 1"
+          :sentences="sentences"
+          :current="current"
+          @update:current="(step) => (current = step)"
+          @sentencesToBeTranslated="
+            (sentences) => (sentencesToBeTranslated = sentences)
+          "
+          @update:translations="(t) => (translations = t)"
+        />
+        <TranslationCard
+          v-else-if="current === 2"
+          :sentencesToBeTranslated="sentencesToBeTranslated"
+          :translations="translations"
+          :current="current"
+          :noteWords="noteWords"
+          :isDark="isDark"
+          @update:current="(step) => (current = step)"
+          @update:noteWords="(notes) => (noteWords = notes)"
+        />
 
-      <NotesCard
-        v-else-if="current === 3"
-        :current="current"
-        :sentencesToBeTranslated="sentencesToBeTranslated"
-        :translations="translations"
-        :noteWords="noteWords"
-        @update:current="(step: number) => (current = step)"
-        @update:article="(a) => (article = a)"
-        @update:sentences="(s) => (sentences = s)"
-        @update:sentencesToBeTranslated="(s) => (sentencesToBeTranslated = s)"
-        @update:translations="(t) => (translations = t)"
-        @update:noteWords="(n: NoteWordType[]) => (noteWords = n)"
-      />
+        <NotesCard
+          v-else-if="current === 3"
+          :current="current"
+          :sentencesToBeTranslated="sentencesToBeTranslated"
+          :translations="translations"
+          :noteWords="noteWords"
+          @update:current="(step: number) => (current = step)"
+          @update:article="(a) => (article = a)"
+          @update:sentences="(s) => (sentences = s)"
+          @update:sentencesToBeTranslated="(s) => (sentencesToBeTranslated = s)"
+          @update:translations="(t) => (translations = t)"
+          @update:noteWords="(n: NoteWordType[]) => (noteWords = n)"
+        />
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
-    <div>
-      <Footer />
-    </div>
-  </div>
+  </a-config-provider>
 </template>
