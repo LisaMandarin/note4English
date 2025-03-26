@@ -11,6 +11,7 @@ const props = defineProps<{
   current: number;
 }>();
 const title = ref("輸入英文文章");
+const activeKey = ref([]); // sample collapse state
 const textareaValue = defineModel<string>();
 const textareaRef = ref<TextAreaProps | null>(null);
 const emit = defineEmits(["update:sentences", "update:current"]);
@@ -65,6 +66,26 @@ const handleTourOpen = (val: boolean) => {
     {{ title }}
     <HiOutlineQuestionMarkCircle class="inline cursor-pointer" @click="handleTourOpen"/>
   </h2>
+  <div class="w-[500px] mx-auto">
+        <a-collapse v-model:activeKey="activeKey">
+          <a-collapse-panel key="1" header="教我怎麼使用">
+            <ol class="list-decimal">
+              <li>把範例文章貼在框格內</li>
+              <li>
+                <a-typography-paragraph copyable>Springtime is a time of renewal and growth. Many plants end their long
+              winter sleep and form new buds and shoots. Beautiful flowers will soon
+              be showing their bright colors. And the grass will grow thicker and
+              greener again. Some flowers bloom in a very noticeable way but that is
+              not the case with grass. Imagine you are sitting in a grassy field.
+              And you have only one job – to watch the grass grow. That does not
+              sound very interesting. In fact, it sounds really boring.</a-typography-paragraph>
+              </li>
+              <li>按按鈕「陳列句子」</li>
+
+            </ol>
+          </a-collapse-panel>
+        </a-collapse>
+      </div>
   <div class="px-8 max-w-[1000px] mx-auto">
     <a-textarea
       v-model:value="textareaValue"

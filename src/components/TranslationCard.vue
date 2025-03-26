@@ -18,6 +18,7 @@ const props = defineProps<{
 
 const emit = defineEmits(["update:current", "update:noteWords"]);
 const title = ref("翻譯");
+const activeKey = ref([]);
 const loading = ref(false);
 const selectedWord = ref("");
 const chinese = ref(true);
@@ -143,6 +144,19 @@ watch([chinese, english, example], ([ch, en, ex]) => {
       @click="handleTourOpen(true)"
     />
   </h2>
+  <div class="w-[500px] mx-auto">
+    <a-collapse v-model:activeKey="activeKey">
+      <a-collapse-panel key="1" header="教我怎麼使用">
+        <ol class="list-decimal">
+          <li>畫面呈現的是英文和其翻譯</li>
+          <li>選擇要查詢的模式：「中文意思」、「英文解釋」、「例句」</li>
+          <li>選取英文單詞</li>
+          <li>按按鈕「查詢單字」</li>
+        </ol>
+      </a-collapse-panel>
+    </a-collapse>
+
+  </div>
   <a-spin :spinning="loading">
     <div
       class="mx-8 max-w-[1000px] lg:mx-auto border-2 border-warm-green rounded-xl"

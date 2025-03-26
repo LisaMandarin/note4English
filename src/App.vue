@@ -5,7 +5,7 @@ import ArticleCard from "./components/ArticleCard.vue";
 import SentenceCard from "./components/SentenceCard.vue";
 import TranslationCard from "./components/TranslationCard.vue";
 import NotesCard from "./components/NotesCard.vue";
-import { ref, watch, computed } from "vue";
+import { ref, computed } from "vue";
 import { theme } from "ant-design-vue";
 
 export type NoteWordType = {
@@ -74,17 +74,15 @@ const themeConfig = computed(() => (isDark.value ? darkTheme : lightTheme));
       <div class="mx-8 my-2">
         <a-switch v-model:checked="isDark" />
       </div>
+
       <div>
         <Header :isDark="isDark" />
       </div>
 
       <div class="mx-12 my-4">
-        <a-steps
-          :current="current"
-          :items="items"
-          
-        />
+        <a-steps :current="current" :items="items" />
       </div>
+
       <div class="flex-grow">
         <ArticleCard
           v-if="current === 0"

@@ -5,6 +5,7 @@ import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
 import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { BsTranslate } from "vue-icons-plus/bs";
 import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
+import { AiOutlineEdit } from "vue-icons-plus/ai";
 import microsoftTranslator from "../APIs/microsoft-translator"
 import EditableDiv from "./EditableDiv.vue";
 import type { TourProps } from "ant-design-vue";
@@ -19,6 +20,7 @@ const emit = defineEmits([
   "update:translations",
 ]);
 const title = ref("陳列句子");
+const activeKey = ref([])  // collapse state
 const sentences = ref<string[]>(props.sentences || []);
 const loading = ref(false)
 
@@ -88,6 +90,17 @@ const steps: TourProps['steps'] = [
     {{ title }}
     <HiOutlineQuestionMarkCircle class="inline cursor-pointer" @click="handleTourOpen(true)" />
   </h2>
+  <div class="w-[500px] mx-auto">
+    <a-collapse v-model:activeKey="activeKey">
+      <a-collapse-panel key="1" header="教我怎麼使用">
+        <ol class="list-decimal"> 
+          <li>按<AiOutlineEdit class="inline"/></li>
+          <li>刪除或增加文字</li>
+          <li>在空白處按一下完成編輯</li>
+        </ol>
+      </a-collapse-panel>
+    </a-collapse>
+  </div>
   <a-spin :spinning="loading">
 
     <div

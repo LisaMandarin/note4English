@@ -5,6 +5,7 @@ import { BsDownload } from "vue-icons-plus/bs";
 import { AiOutlineClear } from "vue-icons-plus/ai";
 import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { VscDebugRestart } from "vue-icons-plus/vsc";
+import { AiOutlineEdit } from "vue-icons-plus/ai";
 import type { NoteWordType } from "../App.vue";
 import generatePDF from "../APIs/generatePDF";
 import { message } from "ant-design-vue";
@@ -73,6 +74,7 @@ const processRef = ref(null)
 const clearRef = ref(null)
 const restartRef = ref(null)
 const tourCurrent = ref(0)
+const activeKey = ref([])
 
 const steps = [
     {
@@ -116,6 +118,18 @@ const steps = [
     {{ title }}
     <HiOutlineQuestionMarkCircle class="inline cursor-pointer" @click="handleTourOpen(true)"/>
   </h2>
+  <div class="w-[500px] mx-auto">
+    <a-collapse v-model:activeKey="activeKey">
+      <a-collapse-panel key="1" header="教我怎麼使用">
+        <ol class="list-decimal">
+          <li>如果還沒查詢單字，請先回上頁選字查詢</li>
+          <li>按<AiOutlineEdit class="inline" /></li>
+          <li>刪除或增加文字</li>
+          <li>按 X 清除一則筆記</li>
+        </ol>
+      </a-collapse-panel>
+    </a-collapse>
+  </div>
   <a-spin :spinning="loading">
     <div
       class="mx-8 max-w-[1000px] lg:mx-auto p-4 text-base lg:text-xl border border-earthy-green rounded-xl flex flex-wrap gap-4"
