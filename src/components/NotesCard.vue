@@ -64,16 +64,62 @@ function startOver() {
   emit("update:translations", []);
   emit("update:noteWords", []);
 }
+
+/* ************************** tour (begin) ************************** */
+const open = ref(false)
+const textRef = ref(null)
+const backRef = ref(null)
+const processRef = ref(null)
+const clearRef = ref(null)
+const restartRef = ref(null)
+const tourCurrent = ref(0)
+
+const steps = [
+    {
+      title:
+        "Words you look up appear here.  Edit text or delete the box if necessary.",
+      description: "查詢過的字出現在這，可編輯或刪除。",
+      target: () => textRef.value,
+    },
+    {
+      title: "Back to look up more words",
+      description: "回上一步查詢更多字，放心，查詢的字不會消失。",
+      target: () => backRef.value,
+    },
+    {
+      title: "Generate PDF and Save it in your local drive",
+      description: "把翻譯和筆記變成PDF檔並存在妳的電腦裡",
+      target: () => processRef.value,
+    },
+    {
+      title: "Don't need the notes?  Delete them.",
+      description: "不需要這些筆記了嗎？一筆勾銷吧！",
+      target: () => clearRef.value,
+    },
+    {
+      title:
+        "Want to translate another article? Translation and notes will be gone.",
+      description: "要重新翻譯文章嗎？這樣會把之前翻譯和做的筆記都消除。",
+      target: () => restartRef.value,
+    },
+  ];
+
+  const handleTourOpen = (val: boolean) => {
+    open.value = val;
+    tourCurrent.value = 0;
+  }
+  /* ************************** tour (begin) ************************** */
 </script>
 
 <template>
   <h2 class="text-center text-2xl font-extrabold font-chinese">
     {{ title }}
-    <HiOutlineQuestionMarkCircle class="inline" />
+    <HiOutlineQuestionMarkCircle class="inline cursor-pointer" @click="handleTourOpen(true)"/>
   </h2>
   <a-spin :spinning="loading">
     <div
       class="mx-8 max-w-[1000px] lg:mx-auto p-4 text-sm lg:text-xl border border-earthy-green rounded-xl flex flex-wrap gap-4"
+      ref="textRef"
     >
       <div
         v-if="noteWords.length > 0"
@@ -96,10 +142,10 @@ function startOver() {
     <div
       class="flex flex-wrap gap-4 justify-center w-screen px-8 pt-4 font-chinese"
     >
-      <button class="btnPrimary" @click="prevStep">
+      <button class="btnPrimary" @click="prevStep" ref="backRef">
         <TbArrowBackUp class="inline mr-2" />回上頁查詢單字
       </button>
-      <button class="btnSecondary" @click="handlePDF">
+      <button class="btnSecondary" @click="handlePDF" ref="processRef">
         <BsDownload class="inline mr-2" />PDF生成
       </button>
       <a-popconfirm
@@ -108,7 +154,7 @@ function startOver() {
         cancel-text="No"
         @confirm="deleteAll"
       >
-        <button class="btnSecondary">
+        <button class="btnSecondary" ref="clearRef">
           <AiOutlineClear class="inline mr-2" />清除全部筆記
         </button>
       </a-popconfirm>
@@ -118,10 +164,11 @@ function startOver() {
         cancel-text="No"
         @confirm="startOver"
       >
-        <button class="btnDanger">
+        <button class="btnDanger" ref="restartRef">
           <VscDebugRestart class="inline mr-2" />重新開始
         </button>
       </a-popconfirm>
     </div>
   </a-spin>
+  <a-tour v-model:current="tourCurrent" :open="open" :steps="steps" @close="handleTourOpen(false)" />
 </template>
