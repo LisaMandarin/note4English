@@ -3,39 +3,68 @@ import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
 import { AiOutlineClear } from "vue-icons-plus/ai";
 import { AiOutlineBars } from "vue-icons-plus/ai";
 import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
-import { ref} from "vue";
+import { ref } from "vue";
 import nlp from "compromise";
-import { message } from "ant-design-vue";
+import { message, type TourProps } from "ant-design-vue";
 
-const props = defineProps<{ 
+const props = defineProps<{
   current: number;
-}>()
+}>();
 const title = ref("輸入英文文章");
-const textareaValue = defineModel<string>()
+const textareaValue = defineModel<string>();
 const textareaRef = ref<HTMLElement | null>(null);
-const emit = defineEmits(["update:sentences", "update:current"])
+const emit = defineEmits(["update:sentences", "update:current"]);
 
 function convertArticle() {
-  if (typeof textareaValue.value !== 'string' || !textareaValue.value.trim()) {
-    message.error("請輸入英文文章", 2)
-    textareaRef.value?.focus()
-    return
+  if (typeof textareaValue.value !== "string" || !textareaValue.value.trim()) {
+    message.error("請輸入英文文章", 2);
+    textareaRef.value?.focus();
+    return;
   }
-  
-  const sentences = nlp(textareaValue.value).sentences().out("array")
-  emit("update:sentences", sentences)
-  emit("update:current", props.current +1)
+
+  const sentences = nlp(textareaValue.value).sentences().out("array");
+  emit("update:sentences", sentences);
+  emit("update:current", props.current + 1);
 }
 
 function nextStep() {
-  emit("update:current", props.current +1)
+  emit("update:current", props.current + 1);
 }
 
+// tour (begin)
+const open = ref(false);
+const clearRef = ref(null);
+const processRef = ref(null);
+const tourCurrent = ref(0);
+
+const steps: TourProps['steps'] = [
+  {
+    title: "Paste text, text length < 1000",
+    description: "貼英文文章，字數不超過1000字",
+    target: () => textareaRef.value && textareaRef.value.$el,
+  },
+  {
+    title: "Clear text",
+    description: "清除貼上的文章",
+    target: () => clearRef.value,
+  },
+  {
+    title: "Process article",
+    description: "把文章切成一句一行",
+    target: () => processRef.value,
+  },
+];
+
+const handleTourOpen = (val: boolean) => {
+  open.value = val;
+  tourCurrent.value = 0;
+};
+// tour (end)
 </script>
 <template>
   <h2 class="text-center text-2xl font-extrabold font-chinese">
     {{ title }}
-    <HiOutlineQuestionMarkCircle class="inline" />
+    <HiOutlineQuestionMarkCircle class="inline cursor-pointer" @click="handleTourOpen"/>
   </h2>
   <div class="px-8 max-w-[1000px] mx-auto">
     <a-textarea
@@ -43,29 +72,27 @@ function nextStep() {
       placeholder="請貼上英文文章"
       autoSize
       allowClear
-      :maxlength=1000
+      :maxlength="1000"
       showCount
       id="textareaInput"
       ref="textareaRef"
     />
   </div>
-  <div class="flex flex-wrap w-screen px-8 gap-4 justify-center pt-4 font-chinese">
-    <button
-      @click="textareaValue = ''"
-      class="btnSecondary"
-    >
+  <div
+    class="flex flex-wrap w-screen px-8 gap-4 justify-center pt-4 font-chinese"
+  >
+    <button @click="textareaValue = ''" class="btnSecondary" ref="clearRef">
       <AiOutlineClear class="inline mr-2" />
       清除文字
     </button>
-    <button class="btnPrimary" @click="convertArticle">
+    <button class="btnPrimary" @click="convertArticle" ref="processRef">
       <AiOutlineBars class="inline mr-2" />
       陳列句子
     </button>
-    <button 
-      @click="nextStep"
-      class="btnSecondary ">
+    <button @click="nextStep" class="btnSecondary">
       下一頁
       <TbArrowBigRightLineFilled class="inline mr-2" />
     </button>
   </div>
+  <a-tour v-model:current="tourCurrent" :open="open" :steps="steps" @close="handleTourOpen(false)"/>
 </template>

@@ -5,7 +5,6 @@ import ArticleCard from "./components/ArticleCard.vue";
 import SentenceCard from "./components/SentenceCard.vue";
 import TranslationCard from "./components/TranslationCard.vue";
 import NotesCard from "./components/NotesCard.vue";
-import EditableDiv from "./components/EditableDiv.vue";
 import { ref, watch} from "vue";
 
 
