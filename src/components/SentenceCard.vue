@@ -97,7 +97,7 @@ const steps: TourProps['steps'] = [
         v-if="sentences.length > 0"
         v-for="(_, i) in sentences"
         :key="i"
-        class="odd:bg-warm-green first:rounded-t-lg last:rounded-b-lg"
+        class="odd:bg-warm-green odd:text-black first:rounded-t-lg last:rounded-b-lg"
       >
         <EditableDiv 
           v-model="sentences[i]"

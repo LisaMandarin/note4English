@@ -40,6 +40,9 @@
     .responsive-btn {
         @apply text-base lg:text-xl
     }
+    .dark-mode {
+        @apply bg-gray-950 text-yellow-50 
+    }
 
 }
 

@@ -7,12 +7,12 @@ import TranslationCard from "./components/TranslationCard.vue";
 import NotesCard from "./components/NotesCard.vue";
 import { ref, watch} from "vue";
 
-
 export type NoteWordType = {
   id: string;
   content: string;
 };
 
+const isDark = ref(false);  // dark mode state
 // default text in each card (begin)
 const content = ref<string>("123")
 const article = ref<string>("");
@@ -51,13 +51,16 @@ watch(content, (newValue) => console.log(newValue))
 </script>
 
 <template>
-  <div class="font-english text-base lg:text-xl bg-yellow-50 min-h-screen flex flex-col">
+  <div :class="[isDark ? 'dark-mode' : 'bg-yellow-50', 'font-english', 'text-base', 'lg:text-xl', 'min-h-screen', 'flex', 'flex-col']">
+    <div class="mx-8 my-2">
+      <a-switch v-model:checked="isDark" />
+    </div>
     <div>
-      <Header />
+      <Header :isDark="isDark" />
     </div>
 
     <div class="mx-12 my-4">
-      <a-steps :current="current" :items="items"></a-steps>
+      <a-steps :current="current" :items="items" class="bg-yellow-50 rounded-2xl" />
     </div>
     <div class="flex-grow">
       <ArticleCard
@@ -83,6 +86,7 @@ watch(content, (newValue) => console.log(newValue))
         :translations="translations"
         :current="current"
         :noteWords="noteWords"
+        :isDark="isDark"
         @update:current="(step) => (current = step)"
         @update:noteWords="(notes) => (noteWords = notes)"
       />

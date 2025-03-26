@@ -13,6 +13,7 @@ const props = defineProps<{
   translations: string[];
   current: number;
   noteWords: NoteWordType[];
+  isDark: boolean;
 }>();
 
 const emit = defineEmits(["update:current", "update:noteWords"]);
@@ -100,7 +101,7 @@ const steps: TourProps["steps"] = [
       "Translation is generated.  Back to the previous page if errors occur.",
     description: "翻譯已生成，如果出現Error，請回上一步。",
     target: () => textRef.value,
-    placement: "bottom"
+    placement: "bottom",
   },
   {
     title: "Back to translate again",
@@ -150,11 +151,16 @@ watch([chinese, english, example], ([ch, en, ex]) => {
       <p
         v-if="sentencesToBeTranslated.length > 0"
         v-for="(sentence, i) in sentencesToBeTranslated"
-        class="odd:bg-warm-green p-2 text-base lg:text-xl first:rounded-t-lg last:rounded-b-lg"
+        :class="[isDark ? 'dark-mode' : 'odd:bg-warm-green odd:text-black', 'p-2', 'text-base', 'lg:text-xl', 'first:rounded-t-lg', 'last:rounded-b-lg']"
       >
         {{ sentence }}
         <br />
-        <span class="font-chinese text-red-800">
+        <span
+          :class="[
+            isDark ? 'text-yellow-50' : 'text-red-800',
+            'font-chinese',
+          ]"
+        >
           {{ translations[i] }}
         </span>
       </p>
@@ -180,15 +186,27 @@ watch([chinese, english, example], ([ch, en, ex]) => {
     <div
       class="flex flex-wrap gap-4 justify-center w-screen px-8 pt-4 font-chinese"
     >
-      <button @click="prevStep" class="btnSecondary responsive-btn" ref="backRef">
+      <button
+        @click="prevStep"
+        class="btnSecondary responsive-btn"
+        ref="backRef"
+      >
         <TbArrowBackUp class="inline mr-2" />
         上一頁
       </button>
-      <button @click="lookup" class="btnPrimary responsive-btn" ref="processRef">
+      <button
+        @click="lookup"
+        class="btnPrimary responsive-btn"
+        ref="processRef"
+      >
         <BiSearchAlt class="inline mr-2" />
         查詢單字
       </button>
-      <button @click="nextStep" class="btnSecondary responsive-btn" ref="nextRef">
+      <button
+        @click="nextStep"
+        class="btnSecondary responsive-btn"
+        ref="nextRef"
+      >
         到筆記區
         <TbArrowBigRightLineFilled class="inline ml-2" />
       </button>
