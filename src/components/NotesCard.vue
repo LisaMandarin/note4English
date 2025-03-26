@@ -118,7 +118,7 @@ const steps = [
   </h2>
   <a-spin :spinning="loading">
     <div
-      class="mx-8 max-w-[1000px] lg:mx-auto p-4 text-sm lg:text-xl border border-earthy-green rounded-xl flex flex-wrap gap-4"
+      class="mx-8 max-w-[1000px] lg:mx-auto p-4 text-base lg:text-xl border border-earthy-green rounded-xl flex flex-wrap gap-4"
       ref="textRef"
     >
       <div
@@ -142,10 +142,10 @@ const steps = [
     <div
       class="flex flex-wrap gap-4 justify-center w-screen px-8 pt-4 font-chinese"
     >
-      <button class="btnPrimary" @click="prevStep" ref="backRef">
+      <button class="btnPrimary responsive-btn" @click="prevStep" ref="backRef">
         <TbArrowBackUp class="inline mr-2" />回上頁查詢單字
       </button>
-      <button class="btnSecondary" @click="handlePDF" ref="processRef">
+      <button class="btnSecondary responsive-btn" @click="handlePDF" ref="processRef">
         <BsDownload class="inline mr-2" />PDF生成
       </button>
       <a-popconfirm
@@ -154,7 +154,7 @@ const steps = [
         cancel-text="No"
         @confirm="deleteAll"
       >
-        <button class="btnSecondary" ref="clearRef">
+        <button class="btnSecondary responsive-btn" ref="clearRef">
           <AiOutlineClear class="inline mr-2" />清除全部筆記
         </button>
       </a-popconfirm>
@@ -164,7 +164,7 @@ const steps = [
         cancel-text="No"
         @confirm="startOver"
       >
-        <button class="btnDanger" ref="restartRef">
+        <button class="btnDanger responsive-btn" ref="restartRef">
           <VscDebugRestart class="inline mr-2" />重新開始
         </button>
       </a-popconfirm>

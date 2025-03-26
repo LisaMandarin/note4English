@@ -37,6 +37,9 @@
     .btnDanger:hover {
         @apply shadow-xl
     }
+    .responsive-btn {
+        @apply text-base lg:text-xl
+    }
 
 }
 

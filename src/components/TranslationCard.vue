@@ -100,6 +100,7 @@ const steps: TourProps["steps"] = [
       "Translation is generated.  Back to the previous page if errors occur.",
     description: "翻譯已生成，如果出現Error，請回上一步。",
     target: () => textRef.value,
+    placement: "bottom"
   },
   {
     title: "Back to translate again",
@@ -149,7 +150,7 @@ watch([chinese, english, example], ([ch, en, ex]) => {
       <p
         v-if="sentencesToBeTranslated.length > 0"
         v-for="(sentence, i) in sentencesToBeTranslated"
-        class="odd:bg-warm-green p-2 text-sm lg:text-2xl first:rounded-t-lg last:rounded-b-lg"
+        class="odd:bg-warm-green p-2 text-base lg:text-xl first:rounded-t-lg last:rounded-b-lg"
       >
         {{ sentence }}
         <br />
@@ -157,7 +158,7 @@ watch([chinese, english, example], ([ch, en, ex]) => {
           {{ translations[i] }}
         </span>
       </p>
-      <p v-else class="p-2">
+      <p v-else class="p-2 text-base lg:text-xl">
         請先貼上英文文章，接著按「翻譯」才會看到英文句子和中文翻譯。
       </p>
     </div>
@@ -179,15 +180,15 @@ watch([chinese, english, example], ([ch, en, ex]) => {
     <div
       class="flex flex-wrap gap-4 justify-center w-screen px-8 pt-4 font-chinese"
     >
-      <button @click="prevStep" class="btnSecondary" ref="backRef">
+      <button @click="prevStep" class="btnSecondary responsive-btn" ref="backRef">
         <TbArrowBackUp class="inline mr-2" />
         上一頁
       </button>
-      <button @click="lookup" class="btnPrimary" ref="processRef">
+      <button @click="lookup" class="btnPrimary responsive-btn" ref="processRef">
         <BiSearchAlt class="inline mr-2" />
         查詢單字
       </button>
-      <button @click="nextStep" class="btnSecondary" ref="nextRef">
+      <button @click="nextStep" class="btnSecondary responsive-btn" ref="nextRef">
         到筆記區
         <TbArrowBigRightLineFilled class="inline ml-2" />
       </button>

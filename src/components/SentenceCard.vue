@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { message } from "ant-design-vue";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
 import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { BsTranslate } from "vue-icons-plus/bs";
@@ -101,23 +101,23 @@ const steps: TourProps['steps'] = [
       >
         <EditableDiv 
           v-model="sentences[i]"
-          class="p-2 text-sm lg:text-2xl"  
+          class="p-2 text-base lg:text-xl"  
         />
       </p>
-      <p v-if="sentences.length === 0" class="p-2">
+      <p v-if="sentences.length === 0" class="p-2 text-base lg:text-xl">
         請先貼上英文文章才能進行斷句。回上一頁。
       </p>
     </div>
     <div class="flex flex-wrap gap-4 justify-center w-screen px-8 pt-4 font-chinese">
-      <button class="btnSecondary" @click="prevStep" ref="backRef">
+      <button class="btnSecondary responsive-btn" @click="prevStep" ref="backRef">
         <TbArrowBackUp class="inline mr-2" />
         上一頁
       </button>
-      <button class="btnPrimary" @click="convertSentences" ref="processRef">
+      <button class="btnPrimary responsive-btn" @click="convertSentences" ref="processRef">
         <BsTranslate class="inline mr-2" />
         翻譯
       </button>
-      <button class="btnSecondary" @click="nextStep">
+      <button class="btnSecondary responsive-btn" @click="nextStep">
         下一頁
         <TbArrowBigRightLineFilled class="inline ml-2" />
       </button>
