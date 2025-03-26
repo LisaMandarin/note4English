@@ -34,6 +34,7 @@ watch(isEditable, async (newValue) => {
     <div
         v-if="!isEditable"
         @click="isEditable = true"
+        class="whitespace-pre-wrap"
       >
         <span>{{ modelValue }}</span>
         <AiOutlineEdit class="inline ml-2 cursor-pointer" />

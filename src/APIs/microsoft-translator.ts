@@ -1,7 +1,7 @@
 import { message } from "ant-design-vue"
 import axios from "axios"
 
-export default async function microsoftTranslator(sentences) {
+export default async function microsoftTranslator(sentences: string[]) {
     try {
         const apiKey = import.meta.env.VITE_MICROSOFT_API_KEY
 

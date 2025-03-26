@@ -4,7 +4,7 @@ import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
 import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { BiSearchAlt } from "vue-icons-plus/bi";
 import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
-import { message } from "ant-design-vue";
+import { message, type TourProps } from "ant-design-vue";
 import openAIResult from "../APIs/openai";
 import type { NoteWordType } from "../App.vue";
 
@@ -48,7 +48,7 @@ function select() {
 async function lookup() {
   try {
     loading.value = true;
-    
+
     if (!chinese.value && !english.value && !example.value) {
       message.error("請勾選「中文」、「English」、或「例句」");
       return;
@@ -59,11 +59,11 @@ async function lookup() {
       return;
     }
     const result = await openAIResult(
-      selectedWord,
-      lookupTerms,
-      termChinese,
-      termEnglish,
-      termExample
+      selectedWord.value,
+      lookupTerms.value,
+      termChinese.value,
+      termEnglish.value,
+      termExample.value
     );
 
     if (result) {
@@ -86,6 +86,44 @@ onUnmounted(() => {
   document.removeEventListener("selectionchange", select);
 });
 
+/* ************************** tour (begin) ************************** */
+const open = ref(false);
+const textRef = ref(null);
+const backRef = ref(null);
+const processRef = ref(null);
+const nextRef = ref(null);
+const tourCurrent = ref(0);
+
+const steps: TourProps["steps"] = [
+  {
+    title:
+      "Translation is generated.  Back to the previous page if errors occur.",
+    description: "翻譯已生成，如果出現Error，請回上一步。",
+    target: () => textRef.value,
+  },
+  {
+    title: "Back to translate again",
+    description: "回上一步重新翻譯。",
+    target: () => backRef.value,
+  },
+  {
+    title: "Select words you want to look up",
+    description: "選取上面的單字進行查詢。",
+    target: () => processRef.value,
+  },
+  {
+    title: "Check Out Notes",
+    description: "看看你查過的單字",
+    target: () => nextRef.value,
+  },
+];
+
+const handleTourOpen = (val: boolean) => {
+  open.value = val;
+  tourCurrent.value = 0;
+};
+/* ************************** tour (end) ************************** */
+
 watch([chinese, english, example], ([ch, en, ex]) => {
   const newTerms = new Set<string>();
   if (ch) newTerms.add(termChinese.value);
@@ -98,11 +136,15 @@ watch([chinese, english, example], ([ch, en, ex]) => {
 <template>
   <h2 class="text-center text-2xl font-extrabold font-chinese">
     {{ title }}
-    <HiOutlineQuestionMarkCircle class="inline" />
+    <HiOutlineQuestionMarkCircle
+      class="inline cursor-pointer"
+      @click="handleTourOpen(true)"
+    />
   </h2>
   <a-spin :spinning="loading">
     <div
       class="mx-8 max-w-[1000px] lg:mx-auto border-2 border-warm-green rounded-xl"
+      ref="textRef"
     >
       <p
         v-if="sentencesToBeTranslated.length > 0"
@@ -137,18 +179,24 @@ watch([chinese, english, example], ([ch, en, ex]) => {
     <div
       class="flex flex-wrap gap-4 justify-center w-screen px-8 pt-4 font-chinese"
     >
-      <button @click="prevStep" class="btnSecondary">
+      <button @click="prevStep" class="btnSecondary" ref="backRef">
         <TbArrowBackUp class="inline mr-2" />
         上一頁
       </button>
-      <button @click="lookup" class="btnPrimary">
+      <button @click="lookup" class="btnPrimary" ref="processRef">
         <BiSearchAlt class="inline mr-2" />
         查詢單字
       </button>
-      <button @click="nextStep" class="btnSecondary">
+      <button @click="nextStep" class="btnSecondary" ref="nextRef">
         到筆記區
         <TbArrowBigRightLineFilled class="inline ml-2" />
       </button>
     </div>
   </a-spin>
+  <a-tour
+    v-model:current="tourCurrent"
+    :open="open"
+    :steps="steps"
+    @close="handleTourOpen(false)"
+  />
 </template>

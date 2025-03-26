@@ -5,20 +5,19 @@ import { AiOutlineBars } from "vue-icons-plus/ai";
 import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
 import { ref } from "vue";
 import nlp from "compromise";
-import { message, type TourProps } from "ant-design-vue";
+import { message, type TourProps, type TextAreaProps } from "ant-design-vue";
 
 const props = defineProps<{
   current: number;
 }>();
 const title = ref("輸入英文文章");
 const textareaValue = defineModel<string>();
-const textareaRef = ref<HTMLElement | null>(null);
+const textareaRef = ref<TextAreaProps | null>(null);
 const emit = defineEmits(["update:sentences", "update:current"]);
 
 function convertArticle() {
   if (typeof textareaValue.value !== "string" || !textareaValue.value.trim()) {
     message.error("請輸入英文文章", 2);
-    textareaRef.value?.focus();
     return;
   }
 
@@ -31,7 +30,7 @@ function nextStep() {
   emit("update:current", props.current + 1);
 }
 
-// tour (begin)
+/* ************************** tour (begin) ************************** */
 const open = ref(false);
 const clearRef = ref(null);
 const processRef = ref(null);
@@ -41,7 +40,7 @@ const steps: TourProps['steps'] = [
   {
     title: "Paste text, text length < 1000",
     description: "貼英文文章，字數不超過1000字",
-    target: () => textareaRef.value && textareaRef.value.$el,
+    target: () => textareaRef.value && (textareaRef.value as any).$el,
   },
   {
     title: "Clear text",
@@ -59,7 +58,7 @@ const handleTourOpen = (val: boolean) => {
   open.value = val;
   tourCurrent.value = 0;
 };
-// tour (end)
+/* ************************** tour (end) ************************** */
 </script>
 <template>
   <h2 class="text-center text-2xl font-extrabold font-chinese">

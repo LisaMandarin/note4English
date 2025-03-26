@@ -86,7 +86,7 @@ function startOver() {
         >
           X
         </button>
-        <EditableDiv v-model="word.content" :key="word.id" class="whitespace-pre"/>
+        <EditableDiv v-model="word.content" :key="word.id"/>
       </div>
       <p v-else>
         按「查詢單字」後，單字解釋會呈現在這區，更多資訊請按上方「問號」

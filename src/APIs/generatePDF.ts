@@ -1,6 +1,7 @@
 import jsPDF from "jspdf"
+import type { NoteWordType } from "../App.vue"
 
-export default async function generatePDF(sentencesToBeTranslated, translations, noteWords) {
+export default async function generatePDF(sentencesToBeTranslated: string[], translations: string[], noteWords: NoteWordType[]): Promise<void> {
     const newSentences = sentencesToBeTranslated
     const newTranslations = translations
     const newNotes = noteWords
@@ -11,7 +12,7 @@ export default async function generatePDF(sentencesToBeTranslated, translations,
     pdf.addFileToVFS('NotoSansTC-VariableFont_wght-normal.ttf', NotoSansTC)
     pdf.addFont('NotoSansTC-VariableFont_wght-normal.ttf', 'NotoSansTC', 'normal')
     pdf.setFont('NotoSansTC')
-    pdf.setFontSize('14')
+    pdf.setFontSize(14)
 
     const pageWidth = pdf.internal.pageSize.width;
     const pageHeight = pdf.internal.pageSize.height;
