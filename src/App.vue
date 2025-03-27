@@ -7,7 +7,7 @@ import TranslationCard from "./components/TranslationCard.vue";
 import NotesCard from "./components/NotesCard.vue";
 import { ref, computed } from "vue";
 import { theme } from "ant-design-vue";
-import { uploadFile, getFileUrl } from "./APIs/appwrite";
+import FileToText from "./components/FileToText.vue";
 
 export type NoteWordType = {
   id: string;
@@ -15,38 +15,6 @@ export type NoteWordType = {
 };
 
 const isDark = ref(false); // dark mode state
-const file = ref<File | null>(null);
-const fileName = ref('')
-
-function handleFileChange(event: Event) {
-  const target = event.target as HTMLInputElement;
-  const files = target.files;
-  if (files) {
-    file.value = files[0];
-    fileName.value = files[0].name
-  } else {
-    file.value = null;
-    fileName.value = ''
-  }
-}
-
-async function handleSubmit() {
-  if (!file.value) {
-    alert('Please choose a file')
-    return
-  }
-  try {
-    const result = await uploadFile(file.value)
-    if (result) {
-      console.log('fileID: ', result.$id)
-      const imageURL = await getFileUrl(result.$id)
-      return imageURL
-    }
-  } catch (error) {
-    console.error(error)
-    alert('Upload failed')
-  }
-}
 
 // default text in each card (begin)
 const article = ref<string>("");
@@ -117,6 +85,8 @@ const themeConfig = computed(() => (isDark.value ? darkTheme : lightTheme));
         <a-steps :current="current" :items="items" />
       </div>
 
+      <FileToText />
+
       <div class="flex-grow">
         <ArticleCard
           v-if="current === 0"
@@ -160,14 +130,7 @@ const themeConfig = computed(() => (isDark.value ? darkTheme : lightTheme));
           @update:noteWords="(n: NoteWordType[]) => (noteWords = n)"
         />
       </div>
-      <div class="mx-auto my-8">
-        <form @submit.prevent="handleSubmit" class="flex flex-col gap-4 items-start">
-          <label for="fileInput" class="cursor-pointer bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition">Choose file</label>
-          <input id="fileInput" type="file" class="hidden" @change="handleFileChange"/>
-          <span>{{ fileName || "No file chosen" }}</span>
-          <button class="bg-green-600 text-white px-4 rounded-xl hover:bg-green-700 transition" type="submit">圖片轉文字</button>
-        </form>
-      </div>
+      
       <div>
         <Footer />
       </div>
