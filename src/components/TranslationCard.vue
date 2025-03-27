@@ -144,7 +144,7 @@ watch([chinese, english, example], ([ch, en, ex]) => {
       @click="handleTourOpen(true)"
     />
   </h2>
-  <div class="w-[500px] mx-auto">
+  <div class="mx-8 lg:w-[500px] lg:mx-auto">
     <a-collapse v-model:activeKey="activeKey">
       <a-collapse-panel key="1" header="教我怎麼使用">
         <ol class="list-decimal">
