@@ -24,11 +24,11 @@ export default async function microsoftTranslator(sentences: string[]) {
         const body = sentences.map((s) => ({text: s}))
         const response = await axios.post(url, body, {headers})
         const results = response.data;
-        const translations = results.map((r) => r.translations[0].text)
+        const translations = results.map((r: any) => r.translations[0].text)
         return translations
 
     } catch (error) {
-        console.error('Something wrong during fetching translation: ', error.message)
+        console.error('Something wrong during fetching translation: ', error)
         message.error('翻譯時發生錯誤，請稍後再試')
         return []
     }
