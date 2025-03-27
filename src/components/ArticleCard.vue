@@ -35,11 +35,17 @@ function nextStep() {
 
 /* ************************** tour (begin) ************************** */
 const open = ref(false);
+const uploadRef = ref(null);
 const clearRef = ref(null);
 const processRef = ref(null);
 const tourCurrent = ref(0);
 
 const steps: TourProps["steps"] = [
+  {
+    title: "Upload image as needed",
+    description: "如有需要，可上傳圖片",
+    target: () => uploadRef.value,
+  },
   {
     title: "Paste text, text length < 1000",
     description: "貼英文文章，字數不超過1000字",
@@ -98,7 +104,7 @@ watch(imageText, (newVal) => {
     </a-collapse>
   </div>
 
-  <div>
+  <div class="p-2" ref="uploadRef">
     <FileToText @update:imageText="(text: string) => (imageText= text)" />
   </div>
 
