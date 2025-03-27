@@ -7,7 +7,6 @@ import TranslationCard from "./components/TranslationCard.vue";
 import NotesCard from "./components/NotesCard.vue";
 import { ref, computed } from "vue";
 import { theme } from "ant-design-vue";
-import FileToText from "./components/FileToText.vue";
 
 export type NoteWordType = {
   id: string;
@@ -84,8 +83,6 @@ const themeConfig = computed(() => (isDark.value ? darkTheme : lightTheme));
       <div class="mx-12 my-4">
         <a-steps :current="current" :items="items" />
       </div>
-
-      <FileToText />
 
       <div class="flex-grow">
         <ArticleCard

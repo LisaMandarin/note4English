@@ -1,3 +1,4 @@
+import { message } from "ant-design-vue";
 import { Client, Storage, ID } from "appwrite";
 
 const endpoint = import.meta.env.VITE_APPWRITE_ENDPOINT;
@@ -27,11 +28,11 @@ export async function uploadFile(file: File) {
     }
     const storage = new Storage(client);
     const result = await storage.createFile(bucketID, ID.unique(), file);
-    alert("Upload successful!");
+    message.success('Upload successful!');
     return result;
   } catch (error) {
     console.error("Upload failed: ", error);
-    alert("Upload failed.  check console.");
+    message.error('Upload failed!');
     return null;
   }
 }
@@ -45,11 +46,11 @@ export async function getFileUrl(fileID: string) {
     }
 
     const storage = new Storage(client);
-    const imageURL = await storage.getFileView(bucketID, fileID);
+    const imageURL = storage.getFileView(bucketID, fileID);
     return imageURL;
   } catch (error) {
     console.error("Get file URL failed: ", error);
-    alert("Get file URL failed. check console.");
+    message.error('Get file URL failed!');
     return null;
   }
 }

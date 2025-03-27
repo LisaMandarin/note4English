@@ -3,13 +3,15 @@ import { HiOutlineQuestionMarkCircle } from "vue-icons-plus/hi";
 import { AiOutlineClear } from "vue-icons-plus/ai";
 import { AiOutlineBars } from "vue-icons-plus/ai";
 import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import nlp from "compromise";
 import { message, type TourProps, type TextAreaProps } from "ant-design-vue";
+import FileToText from "./FileToText.vue";
 
 const props = defineProps<{
   current: number;
 }>();
+const imageText = ref<string>("");
 const title = ref("輸入英文文章");
 const activeKey = ref([]); // sample collapse state
 const textareaValue = defineModel<string>();
@@ -37,7 +39,7 @@ const clearRef = ref(null);
 const processRef = ref(null);
 const tourCurrent = ref(0);
 
-const steps: TourProps['steps'] = [
+const steps: TourProps["steps"] = [
   {
     title: "Paste text, text length < 1000",
     description: "貼英文文章，字數不超過1000字",
@@ -60,32 +62,46 @@ const handleTourOpen = (val: boolean) => {
   tourCurrent.value = 0;
 };
 /* ************************** tour (end) ************************** */
+
+watch(imageText, (newVal) => {
+  textareaValue.value = newVal;
+});
 </script>
 <template>
   <h2 class="text-center text-2xl font-extrabold font-chinese">
     {{ title }}
-    <HiOutlineQuestionMarkCircle class="inline cursor-pointer" @click="handleTourOpen"/>
+    <HiOutlineQuestionMarkCircle
+      class="inline cursor-pointer"
+      @click="handleTourOpen"
+    />
   </h2>
   <div class="mx-8 lg:w-[500px] lg:mx-auto">
-        <a-collapse v-model:activeKey="activeKey">
-          <a-collapse-panel key="1" header="教我怎麼使用">
-            <ol class="list-decimal">
-              <li>把範例文章貼在框格內</li>
-              <li>
-                <a-typography-paragraph copyable>Springtime is a time of renewal and growth. Many plants end their long
-              winter sleep and form new buds and shoots. Beautiful flowers will soon
-              be showing their bright colors. And the grass will grow thicker and
-              greener again. Some flowers bloom in a very noticeable way but that is
-              not the case with grass. Imagine you are sitting in a grassy field.
-              And you have only one job – to watch the grass grow. That does not
-              sound very interesting. In fact, it sounds really boring.</a-typography-paragraph>
-              </li>
-              <li>按按鈕「陳列句子」</li>
+    <a-collapse v-model:activeKey="activeKey">
+      <a-collapse-panel key="1" header="教我怎麼使用">
+        <ol class="list-decimal">
+          <li>把範例文章貼在框格內</li>
+          <li>
+            <a-typography-paragraph copyable
+              >Springtime is a time of renewal and growth. Many plants end their
+              long winter sleep and form new buds and shoots. Beautiful flowers
+              will soon be showing their bright colors. And the grass will grow
+              thicker and greener again. Some flowers bloom in a very noticeable
+              way but that is not the case with grass. Imagine you are sitting
+              in a grassy field. And you have only one job – to watch the grass
+              grow. That does not sound very interesting. In fact, it sounds
+              really boring.</a-typography-paragraph
+            >
+          </li>
+          <li>按按鈕「陳列句子」</li>
+        </ol>
+      </a-collapse-panel>
+    </a-collapse>
+  </div>
 
-            </ol>
-          </a-collapse-panel>
-        </a-collapse>
-      </div>
+  <div>
+    <FileToText @update:imageText="(text: string) => (imageText= text)" />
+  </div>
+
   <div class="px-8 max-w-[1000px] mx-auto">
     <a-textarea
       v-model:value="textareaValue"
@@ -114,5 +130,10 @@ const handleTourOpen = (val: boolean) => {
       <TbArrowBigRightLineFilled class="inline mr-2" />
     </button>
   </div>
-  <a-tour v-model:current="tourCurrent" :open="open" :steps="steps" @close="handleTourOpen(false)"/>
+  <a-tour
+    v-model:current="tourCurrent"
+    :open="open"
+    :steps="steps"
+    @close="handleTourOpen(false)"
+  />
 </template>

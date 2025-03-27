@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function getOCRResult(imageURL: string) {
-  const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+  const apiKey = import.meta.env.VITE_OCR_API_KEY;
   const options = {
     method: "POST",
     url: "https://ocr-document-pro.p.rapidapi.com/extract",
@@ -20,10 +20,9 @@ export async function getOCRResult(imageURL: string) {
 
   try {
     const response = await axios.request(options);
-    console.log('text: ', response.data)
-    return response.data.text;
+    return response.data.data.text;
   } catch (error) {
     console.error(error);
+    return "OCR failed"
   }
-  
 }
