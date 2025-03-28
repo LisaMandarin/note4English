@@ -1,5 +1,5 @@
 declare function openaiAPI(
-        selectedModel: string,
+        selectedWord: string,
         lookupTerms: Set<string>,
         termChinese: string,
         termEnglish: string,

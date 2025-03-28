@@ -2,7 +2,7 @@ import { message } from "ant-design-vue";
 import OpenAI from "openai";
 import { v4 as uuidv4 } from "uuid";
 
-export default async function openaiAPI() {
+export default async function openaiAPI(selectedWord, lookupTerms, termChinese, termEnglish, termExample) {
   try {
     const lookupTermsList = Array.from(lookupTerms);
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
