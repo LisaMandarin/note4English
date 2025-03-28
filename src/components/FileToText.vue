@@ -79,7 +79,7 @@ const deleteFile = () => {
 <template>
   <a-spin :spinning="uploadLoading">
     <form
-      class="flex justify-center items-center mx-8 lg:max-w-[1000px]"
+      class="flex justify-center items-center mx-8 lg:max-w-[1000px lg:mx-auto]"
       @submit.prevent="handleSubmit"
     >
       <label for="uploadFile" class="cursor-pointer text-earthy-green px-1 mr-1"

@@ -36,7 +36,7 @@ watch(isEditable, async (newValue) => {
         @click="isEditable = true"
         class="whitespace-pre-wrap"
       >
-        <span>{{ modelValue }}</span>
+        <span class="font-chinese">{{ modelValue }}</span>
         <AiOutlineEdit class="inline ml-2 cursor-pointer" />
       </div>
       <div 
