@@ -27,25 +27,25 @@ This Vue project provides a comprehensive language learning tool focused on Engl
 
 ## Features
 
-###📷Image to Text Conversion**
+###📷Image to Text Conversion
 
 - Upload images to Appwrite for storage and URL generation.
 - Use OCR API to extract text from the uploaded image.
 
-###✂️Natural Language Extraction**
+###✂️Natural Language Extraction
 - Use the compromise library to split paragraphs into individual sentences.
 - Edit the extracted sentences as needed
 
-###🌐English-traditional Chinese Translation**
+###🌐English-traditional Chinese Translation
 - Input Enter text into the field.
 - Use the Microsoft Translator API to translate text into traditional Chinese.
 - View results in the Translation Section
 
-###📝Notes Taking**
+###📝Notes Taking
 - Select words to generate notes using the OpenAI API.
 - View, edit or delete note cards as needed.
 
-###📄PDF Generation**
+###📄PDF Generation
 - Collect translated text and notes.
 - Generate and download a PDF version of the learning content.
 
