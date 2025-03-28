@@ -6,6 +6,10 @@ This Vue project provides a comprehensive language learning tool focused on Engl
 
 <img src="./public/site1.webp" alt="Site Preview 1" width="400" />
 <img src="./public/site2.webp" alt="Site Preview 2" width="400" />
+<img src="./public/site3.webp" alt="Site Preview 3" width="400" />
+<img src="./public/site4.webp" alt="Site Preview 4" width="400" />
+<img src="./public/site5.webp" alt="Site Preview 5" width="400" />
+<img src="./public/site6.webp" alt="Site Preview 6" width="400" />
 
 ## Skills Used
 
