@@ -1,38 +1,42 @@
 ## Introduction
-This React project is designed to offer a comprehensive language learning tool for English-Chinese translation. It leverages multiple APIs and custom components to provide users with translations, example sentences, and the ability to generate PDF documents containing their learning materials. The project focuses on user-friendly interactions, efficient state management, and seamless integration with third-party services.
+This Vue project provides a comprehensive language learning tool focused on English-Chinese translation. It integrates  multiple APIs and custom components to offer users translations, example sentences, and the ability to generate PDF documents from their learning materials.  The project emphasizes user-friendly interactions, efficient state management, and seamless integration with third-party services.
 
 ## Site Preview
-![Site Preview](./public/site-preview.png)
-[Watch the brief introduction on Youtube](https://youtu.be/ZxyWQ9Rzc9M)
+![Site Preview](./public/site1.webp, ./public/site2.webp)
 
 ## Skills Used
-- **React**: For building the user interface.
-- **JavaScript**: For scripting and API interactions.
-- **CSS**: For styling the application.
-- **APIs**:
-    - compromise API: For detecting sentences in nlp.
-    - Microsoft Translator API: For translating text.
-    - OpenAI API: For generating detailed word information and examples.
-    - jsPDF: For generating PDF documents.
-- **Context API**: For managing global state.
-- **Fetch API**: For making network requests.
-- **Environment Variables**: For securely managing API keys.
+- **Vue**
+- **Tailwind CSS**
+- **Ant Design**: UI component library
+- **TypeScript**
+- **Appwrite**: An open-source backend-as-a-service (BaaS) platform, used for storing images and generating accessible image URLs.
+- **Fetch APIs**:
+    - OCR Text extraction - convert images to text
+    - compromise - NLP library used to detect and extract sentences
+    - Microsoft Translator API - Translates text from English to Tranditional Chinese.
+    - OpenAI API - Provides detailed word information and example sentences.
+    - jsPDF - Generates downloadable PDF documents.
 
 ## Application URL
-[https://note4english.netlify.app/](https://note4english.netlify.app/)
+[https://note-4-english.netlify.app/](https://note-4-english.netlify.app/)
 
 ## Features
-**Translation**
-1. Enter the text you wish to translate into the input field.
-2. Click the "Translate" button.
-3. The translated text will be displayed in the TranslationSection.
-**Notes**
-1. Enter any notes related to your translations in the NotesSection.
-2. Click the "Add Note" button to save your note.
-3. Your notes will be displayed and can be deleted if necessary.
-**PDF Generation**
-1. After adding translations and notes, click the "Generate PDF" button.
-2. A PDF document containing your translations and notes will be generated and downloaded.
+**📷Image to Text Conversion**
+1. Upload images to Appwrite for storage and URL generation.
+2. Use OCR API to extract text from the uploaded image.
+**✂️Natural Language Extraction**
+1. Use the compromise library to split paragraphs into individual sentences.
+2. Edit the extracted sentences as needed
+**🌐English-traditional Chinese Translation**
+1. Input Enter text into the field.
+2. Use the Microsoft Translator API to translate text into traditional Chinese.
+3. View results in the Translation Section
+**📝Notes Taking**
+1. Select words to generate notes using the OpenAI API.
+2. View, edit or delete note cards as needed.
+**📄PDF Generation**
+1. Collect translated text and notes.
+2. Generate and download a PDF version of the learning content.
 
 ## Contact
-For any inquiries, please contact [**lisa_chuang@mail2000.com.tw**](lisa_chuang@mail2000.com.tw)
+For inquiries, feel free to reach out via [**LinkedIn**](https://www.linkedin.com/in/minting0608/)

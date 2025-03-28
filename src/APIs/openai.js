@@ -2,7 +2,13 @@ import { message } from "ant-design-vue";
 import OpenAI from "openai";
 import { v4 as uuidv4 } from "uuid";
 
-export default async function openaiAPI(selectedWord, lookupTerms, termChinese, termEnglish, termExample) {
+export default async function openaiAPI(
+  selectedWord,
+  lookupTerms,
+  termChinese,
+  termEnglish,
+  termExample
+) {
   try {
     const lookupTermsList = Array.from(lookupTerms);
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
@@ -16,12 +22,10 @@ export default async function openaiAPI(selectedWord, lookupTerms, termChinese, 
       dangerouslyAllowBrowser: true,
     });
 
-    const instructions = `You are an English-Chinese(traditional) dictionary for English learners.  Word: ${
-      selectedWord
-    }.  Tell me the word's information of ${lookupTermsList.join(
+    const instructions = `You are an English-Chinese(traditional) dictionary for English learners.  Word: ${selectedWord}.  Tell me the word's information of ${lookupTermsList.join(
       ", "
     )} and its part of speech.`;
-    
+
     const functionParameters = {
       type: "object",
       properties: {
@@ -35,7 +39,7 @@ export default async function openaiAPI(selectedWord, lookupTerms, termChinese, 
     };
 
     if (lookupTermsList.includes(termChinese)) {
-      functionParameters.properties.chineseMeaning= {
+      functionParameters.properties.chineseMeaning = {
         type: "string",
         description: "The meaning in traditional Chinese",
       };
