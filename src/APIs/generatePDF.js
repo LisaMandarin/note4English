@@ -1,7 +1,6 @@
 import jsPDF from "jspdf"
-import type { NoteWordType } from "../App.vue"
 
-export default async function generatePDF(sentencesToBeTranslated: string[], translations: string[], noteWords: NoteWordType[]): Promise<void> {
+export default async function generatePDF(sentencesToBeTranslated, translations, noteWords) {
     const newSentences = sentencesToBeTranslated
     const newTranslations = translations
     const newNotes = noteWords

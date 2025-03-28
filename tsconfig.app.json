@@ -10,5 +10,13 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/APIs/appwrite.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/**/*.d.ts",
+    "src/APIs/appwrite.ts",
+    "src/APIs/generatePDF.js",
+    "src/APIs/openai.js"
+  ]
 }

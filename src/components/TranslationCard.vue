@@ -5,7 +5,7 @@ import { TbArrowBackUp } from "vue-icons-plus/tb";
 import { BiSearchAlt } from "vue-icons-plus/bi";
 import { TbArrowBigRightLineFilled } from "vue-icons-plus/tb";
 import { message, type TourProps } from "ant-design-vue";
-import openAIResult from "../APIs/openai";
+import openaiAPI from "../APIs/openai";
 import type { NoteWordType } from "../App.vue";
 
 const props = defineProps<{
@@ -60,7 +60,7 @@ async function lookup() {
       message.error("請先選取字再查單詞");
       return;
     }
-    const result = await openAIResult(
+    const result = await openaiAPI(
       selectedWord.value,
       lookupTerms.value,
       termChinese.value,
